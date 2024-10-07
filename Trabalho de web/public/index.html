@@ -1,0 +1,50 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Variação de Câmbio</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Taxa de Câmbio (USD para BRL)</h1>
+    <canvas id="exchangeRateChart" width="400" height="200"></canvas>
+
+    <script>
+        async function fetchExchangeRate() {
+            const response = await fetch('/api/exchange-rate');
+            const data = await response.json();
+            return data.rate;
+        }
+
+        async function renderChart() {
+            const rate = await fetchExchangeRate();
+            const ctx = document.getElementById('exchangeRateChart').getContext('2d');
+            
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Agora'], // Adicione mais labels se necessário
+                    datasets: [{
+                        label: 'Taxa de Câmbio (USD para BRL)',
+                        data: [rate],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
+
+        renderChart();
+    </script>
+</body>
+</html>

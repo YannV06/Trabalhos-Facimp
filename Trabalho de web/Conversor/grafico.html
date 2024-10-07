@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Variação de Câmbio</title>
+    <style>
+        canvas {
+            max-width: 600px;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gráfico de Variação de Câmbio (USD para BRL)</h1>
+    <canvas id="exchangeRateChart"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        async function fetchHistoricalData() {
+            const apiKey = 'e83b593df94268fa3bfe9125'; // Insira sua chave de API aqui
+            const url = `https://v6.exchangerate-api.com/v6/${apiKey}/history/USD/BRL`;
+
+            try {
+                // Faz a requisição para obter os dados históricos de câmbio
+                const response = await fetch(url);
+                const data = await response.json();
+
+                // Verifica se a resposta foi bem-sucedida
+                if (data.result === 'success') {
+                    const history = data.conversion_rates;
+                    
+                    // Arrays para armazenar datas e taxas de câmbio
+                    const labels = [];
+                    const rates = [];
+
+                    // Itera sobre os dados e adiciona ao array
+                    for (let date in history) {
+                        labels.push(date); // Adiciona a data no eixo X
+                        rates.push(history[date]); // Adiciona a taxa no eixo Y
+                    }
+
+                    // Chama a função para exibir o gráfico
+                    renderChart(labels, rates);
+                } else {
+                    alert('Erro ao obter dados históricos');
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+                alert('Erro na requisição');
+            }
+        }
+
+        // Função que renderiza o gráfico usando Chart.js
+        function renderChart(labels, data) {
+            const ctx = document.getElementById('exchangeRateChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'USD para BRL',
+                        data: data,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Data'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Taxa de Câmbio (USD para BRL)'
+                            },
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Chama a função para buscar dados e exibir o gráfico quando a página carrega
+        window.onload = fetchHistoricalData;
+    </script>
+</body>
+</html>

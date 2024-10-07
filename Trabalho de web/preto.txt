@@ -1,0 +1,5 @@
+Exibição de taxas atualizadas (pode usar APIs externas)
+Gráficos de variação de câmbio (opcional)
+
+
+e83b593df94268fa3bfe9125

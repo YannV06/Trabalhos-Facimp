@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxas de Câmbio Atualizadas</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Taxas de Câmbio Atualizadas (Base: USD)</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Moeda</th>
+                <th>Taxa de Câmbio</th>
+            </tr>
+        </thead>
+        <tbody id="exchangeRatesTable">
+            <!-- As taxas de câmbio serão inseridas aqui -->
+        </tbody>
+    </table>
+
+    <script>
+        async function fetchExchangeRates() {
+            const apiKey = 'e83b593df94268fa3bfe9125'; // Insira sua chave de API aqui
+            const url = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`;
+
+            try {
+                // Faz a requisição para obter as taxas de câmbio
+                const response = await fetch(url);
+                const data = await response.json();
+
+                // Verifica se a resposta foi bem-sucedida
+                if (data.result === 'success') {
+                    const rates = data.conversion_rates;
+                    const tableBody = document.getElementById('exchangeRatesTable');
+                    tableBody.innerHTML = ''; // Limpa a tabela antes de preencher
+
+                    // Moedas a serem exibidas (adicionar ou remover conforme necessário)
+                    const currencies = ['BRL', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD', 'CHF'];
+
+                    // Insere as taxas de câmbio na tabela
+                    currencies.forEach(currency => {
+                        const rate = rates[currency];
+                        const row = `<tr>
+                            <td>${currency}</td>
+                            <td>${rate}</td>
+                        </tr>`;
+                        tableBody.innerHTML += row;
+                    });
+                } else {
+                    document.getElementById('exchangeRatesTable').innerHTML = '<tr><td colspan="2">Erro ao obter as taxas</td></tr>';
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+                document.getElementById('exchangeRatesTable').innerHTML = '<tr><td colspan="2">Erro na requisição</td></tr>';
+            }
+        }
+
+        // Chama a função quando a página é carregada
+        window.onload = fetchExchangeRates;
+    </script>
+</body>
+</html>
