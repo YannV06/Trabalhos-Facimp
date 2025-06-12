@@ -1,0 +1,71 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background-color: #0d0d0d;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  margin: auto;
+}
+
+.logo {
+  width: 120px;
+  margin: 40px auto;
+  display: block;
+}
+
+.form-group {
+  margin: 20px 0;
+  text-align: left;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #777;
+  color: white;
+  font-size: 16px;
+}
+
+.icon {
+  margin-right: 8px;
+  font-size: 18px;
+  color: #aaa;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn:hover {
+  background-color: #1a1a1a;
+}
+
+.fingerprint img {
+  width: 50px;
+  margin-top: 30px;
+  opacity: 0.8;
+}
