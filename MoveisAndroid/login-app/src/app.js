@@ -10,3 +10,14 @@ function App() {
 }
 
 export default App;
+import Registration from './components/registration';
+
+function App() {
+  return <Registration />;
+}
+
+import Registration from './components/registration';
+
+function App() {
+  return <Registration />;
+}
